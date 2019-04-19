@@ -1,0 +1,80 @@
+All
+---
+xrank(
+    xrank(
+        xrank(
+            xrank(
+                xrank(
+                    or(
+                        and(path: starts - with("'+$siteUrl+'"), blackjackcontenttype: "Catalog"), 
+                        and(path: starts - with("'+$siteUrl+'"), blackjackcontenttype: "Blackjack Article Page"), 
+                        andnot(
+                            or(blackjackcontenttype: "DMS Document", blackjackcontenttype: "DMS Link to Document"), 
+                            dmsonly: "Yes"
+                        )
+                    ), 
+                dmscategory: "Marketing Documents", boost = 4500, boostall = yes), 
+            dmscategory: "Service Documents", boost = 8000, boostall = yes), 
+        dmscategory: "Product Documents", boost = 12000, boostall = yes), 
+    blackjackcontenttype: "Blackjack Article Page", boost = 20000, boostall = yes), 
+blackjackcontenttype: "Catalog", boost = 40000, boostall = yes)
+
+
+All_Current
+-----------
+xrank(
+    xrank(
+        xrank(
+            xrank(
+                xrank(
+                    or(
+                        and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Catalog"),
+                        and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Blackjack Article Page"),
+                        andnot(
+                            or(blackjackcontenttype:"DMS Document",blackjackcontenttype:"DMS Link to Document"),
+                            dmsonly:"Yes",
+                            dmsdocstatus:"Obsolete"
+                        )
+                    ),
+                dmscategory:"Marketing Documents", boost=4500, boostall=yes),
+            dmscategory:"Service Documents", boost=8000, boostall=yes),
+        dmscategory:"Product Documents", boost=12000, boostall=yes),
+    blackjackcontenttype:"Blackjack Article Page", boost=20000, boostall=yes),
+blackjackcontenttype:"Catalog", boost=40000, boostall=yes)
+	
+
+
+
+
+Documents
+---------
+xrank(
+    xrank(
+        xrank(
+            and(
+                or(dmscategory:"Marketing Documents", dmscategory:"Service Documents", dmscategory:"Product Documents"),
+                dmsonly:"Yes"
+            ),
+        dmscategory:"Marketing Documents", boost=4500, boostall=yes),
+    dmscategory:"Service Documents", boost=6000, boostall=yes),
+dmscategory:"Product Documents", boost=8000, boostall=yes)
+
+
+Documents_Current
+-----------------
+xrank(
+    xrank(
+        xrank(
+            and(
+                or(dmscategory:"Marketing Documents", dmscategory:"Service Documents", dmscategory:"Product Documents"),
+                or(
+                    andnot(
+                        or(blackjackcontenttype:"DMS Document",blackjackcontenttype:"DMS Link to Document"),
+                        dmsonly:"Yes",
+                        dmsdocstatus:"Obsolete"
+                    )
+                )
+            ),
+        dmscategory:"Marketing Documents", boost=4500, boostall=yes),
+    dmscategory:"Service Documents", boost=6000, boostall=yes),
+dmscategory:"Product Documents", boost=8000, boostall=yes)'
