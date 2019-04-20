@@ -1,12 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphQlHTTP = require('express-graphql');
-const {
-    buildSchema
-} = require('graphql');
+const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 const Todo = require('./models/todo');
-
 
 var schema = buildSchema(`
 
@@ -45,44 +42,67 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/api', graphQlHTTP({
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
+app.use(
+  '/api',
+  graphQlHTTP({
     schema: schema,
     rootValue: {
-        todos: () => {
-            const todo = new Todo();
-            todo.find()
+      todos: async () => {
+        const todos = await Todo.find();
+        return todos.map(todo => {
+          return { ...todo._doc, date: new Date(todo._doc.date).toISOString() };
+        });
+      },
 
-        },
+      createTodo: args => {
+        const todo = new Todo({
+          title: args.todoInput.title,
+          description: args.todoInput.description,
+          date: new Date(args.todoInput.date),
+          status: args.todoInput.status,
+          todoType: args.todoInput.todoType
+        });
 
-        createTodo: (args) => {
-            const todo = new Todo({
-                title: args.TodoInput.title,
-                description: args.TodoInput.description,
-                date: new Date(args.TodoInput.date),
-                status: args.TodoInput.status,
-                todoType: args.TodoInput.todoType
-            });
-            return todo.save().then(response => {
-                console.log(response);
-                return {
-                    ...response._doc
-                };
-            }).catch(err => {
-                console.log(err);
-                throw err;
-            });
-        }
+        return todo
+          .save()
+          .then(response => {
+            console.log(response);
+            return {
+              ...response._doc
+            };
+          })
+          .catch(err => {
+            console.log(err);
+            throw err;
+          });
+      }
     },
     graphiql: true
-}));
+  })
+);
 
 mongoose
-    .connect(
-        `mongodb+srv://TestUser:Password@clustermumbai-w8lgo.mongodb.net/test?retryWrites=true`, {
-            useNewUrlParser: true
-        }).then(() => {
-        console.log('Listening to port 8000....');
-        app.listen('8000');
-    }).catch(err => {
-        console.log(' Error: ', err);
-    });
+  .connect(
+    `mongodb+srv://TestUser:Password@clustermumbai-w8lgo.mongodb.net/todo?retryWrites=true`,
+    {
+      useNewUrlParser: true
+    }
+  )
+  .then(() => {
+    console.log('Listening to port 8000....');
+    app.listen('8000');
+  })
+  .catch(err => {
+    console.log(' Error: ', err);
+  });
