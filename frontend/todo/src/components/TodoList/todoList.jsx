@@ -6,11 +6,13 @@ const TodoList = props => {
     return (
       <TodoItem
         key={todo._id}
+        id={todo._id}
         title={todo.title}
         description={todo.description}
         date={todo.date}
         status={todo.status}
         type={todo.todoType}
+        changeStatus={props.changeStatus}
       />
     );
   });

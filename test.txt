@@ -51,13 +51,14 @@ Documents
 xrank(
     xrank(
         xrank(
-            and(
+            andnot(
                 or(dmscategory:"Marketing Documents", dmscategory:"Service Documents", dmscategory:"Product Documents"),
                 dmsonly:"Yes"
             ),
         dmscategory:"Marketing Documents", boost=4500, boostall=yes),
     dmscategory:"Service Documents", boost=6000, boostall=yes),
 dmscategory:"Product Documents", boost=8000, boostall=yes)
+	
 
 
 Documents_Current
@@ -65,16 +66,12 @@ Documents_Current
 xrank(
     xrank(
         xrank(
-            and(
+            andnot(
                 or(dmscategory:"Marketing Documents", dmscategory:"Service Documents", dmscategory:"Product Documents"),
-                or(
-                    andnot(
-                        or(blackjackcontenttype:"DMS Document",blackjackcontenttype:"DMS Link to Document"),
-                        dmsonly:"Yes",
-                        dmsdocstatus:"Obsolete"
-                    )
-                )
+                dmsonly:"Yes", 
+                dmsdocstatus:"Obsolete"
             ),
         dmscategory:"Marketing Documents", boost=4500, boostall=yes),
     dmscategory:"Service Documents", boost=6000, boostall=yes),
-dmscategory:"Product Documents", boost=8000, boostall=yes)'
+dmscategory:"Product Documents", boost=8000, boostall=yes)
+	

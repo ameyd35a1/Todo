@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphQlHTTP = require('express-graphql');
-const { buildSchema } = require('graphql');
+const {
+  buildSchema
+} = require('graphql');
 const mongoose = require('mongoose');
 const Todo = require('./models/todo');
 
@@ -59,9 +61,14 @@ app.use(
     schema: schema,
     rootValue: {
       todos: async () => {
-        const todos = await Todo.find();
+        const todos = await Todo.find().sort({
+          date: 1
+        });
         return todos.map(todo => {
-          return { ...todo._doc, date: new Date(todo._doc.date).toISOString() };
+          return {
+            ...todo._doc,
+            date: new Date(todo._doc.date).toISOString()
+          };
         });
       },
 
@@ -94,8 +101,7 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb+srv://TestUser:Password@clustermumbai-w8lgo.mongodb.net/todo?retryWrites=true`,
-    {
+    `mongodb+srv://TestUser:Password@clustermumbai-w8lgo.mongodb.net/todo?retryWrites=true`, {
       useNewUrlParser: true
     }
   )

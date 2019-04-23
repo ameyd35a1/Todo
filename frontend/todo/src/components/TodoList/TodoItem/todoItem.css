@@ -1,0 +1,37 @@
+.card {
+    background-color: #5d5df3;
+    background: linear-gradient(to right, #5a5af5, #5d5df3);
+    padding: 10px 20px;
+    margin: 10px 0;
+    text-decoration: none;
+    list-style-type: none;
+    border-radius: 5px;
+    color: #eeffe6;
+    width: 400px;
+}
+
+.card.completed .item .title {
+    text-decoration: line-through;
+}
+
+.card.completed {
+    background-color: #adf35d;
+    background: linear-gradient(to right, #adf35d, #b3f36a);
+    color: #425155;
+}
+
+.card.overdue {
+    background-color: #ff3e3e;
+    background: linear-gradient(to right, #ff3e3e, #fa4f4f);
+    color: #425155;
+}
+
+.card .item .title {
+    display: block;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.card .item .date {
+    float: right;
+}

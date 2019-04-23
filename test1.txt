@@ -1,0 +1,79 @@
+All
+----
+xrank(
+    xrank(
+        xrank(
+            xrank(
+                or(
+                    and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Catalog"),
+                    andnot(
+                        and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Blackjack Article Page"),
+                        ExcludeFromHVACSearch:"Yes"
+                    ),
+                    andnot(
+                        or(blackjackcontenttype:"DMS Document",blackjackcontenttype:"DMS Link to Document"),
+                        dmsonly:"Yes"
+                    )
+                ),
+            dmscategory:"Marketing Documents", boost=3500, boostall=yes),
+        dmscategory:"Service Documents", boost=3750, boostall=yes), 
+    dmscategory:"Product Documents", boost=4000, boostall=yes),
+blackjackcontenttype:"Catalog", boost=8000, boostall=yes)
+
+
+All_Current
+-----------
+xrank(
+    xrank(
+        xrank(
+            xrank(
+                or(
+                    and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Catalog"),
+                    andnot(
+                        and(path:starts-with("'+$siteUrl+'"),blackjackcontenttype:"Blackjack Article Page"),
+                        ExcludeFromHVACSearch:"Yes"
+                    ),
+                    andnot(
+                        or(blackjackcontenttype:"DMS Document",blackjackcontenttype:"DMS Link to Document"),
+                        dmsonly:"Yes",
+                        dmsdocstatus:"Obsolete"
+                    )
+                ),
+            dmscategory:"Marketing Documents", boost=3500, boostall=yes),
+        dmscategory:"Service Documents", boost=3750, boostall=yes),	
+    dmscategory:"Product Documents", boost=4000, boostall=yes),
+blackjackcontenttype:"Catalog", boost=8000, boostall=yes)
+
+
+
+Documents
+---------
+xrank(
+    xrank(
+        xrank(
+            andnot(
+                dmscategory:"Marketing Documents",
+                dmsonly:"Yes"
+            ), 
+        dmsdocumentspecifictype:"Price Page", boost=3500, boostall=yes),
+    dmsdocumentspecifictype:"Bulletin", boost=3750, boostall=yes),
+dmsdocumentspecifictype:"Brochure", boost=4000, boostall=yes)'
+	
+
+
+Documents_Current
+-----------------
+xrank(
+    xrank(
+        xrank(
+            andnot(
+                dmscategory:"Marketing Documents",
+                dmsonly:"Yes",
+                dmsdocstatus:"Obsolete"
+            ), 
+        dmsdocumentspecifictype:"Price Page", boost=3500, boostall=yes),
+    dmsdocumentspecifictype:"Bulletin", boost=3750, boostall=yes),
+dmsdocumentspecifictype:"Brochure", boost=4000, boostall=yes)'
+	
+	
+	
